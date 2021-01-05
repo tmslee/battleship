@@ -17,7 +17,9 @@ class Game{
       let currAtt = this.attacker;
       let currDef = currAtt === this.player ? this.cpu : this.player;
       let attCoord = currAtt.getMove();
-      currDef.checkHit(attCoord[0], attCoord[1]);
+
+      let res = currDef.checkHit(attCoord[0], attCoord[1]);
+      cirrAtt.logMove(attCoord, res);
       this.changeAttacker();
     }
     this.winner = this.player.lives === 0? this.cpu : this.player;
@@ -33,7 +35,12 @@ class Player{
     this.user = user;
     this.board = new Array(10).fill(0).map(x => new Array(10).fill(0));
     this.lives = 0;
-    this.notPlacedYet = Set(['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer']);
+    this.notPlacedYet = new Set(['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer']);
+    
+    this.moves = [];
+    this.moveResults = [];
+    this.currLead = undefined;
+    this.AliveEnemyShips = new Set(['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer']);
   }
   
   getMove(){
@@ -41,7 +48,10 @@ class Player{
       //interact with DOM to get user input from board and return [row, col]
     }
     else{
-      //write some clever algo for cpu moves
+      //write some clever algo for cpu moves... this is actually really hard
+      //ideas: keep a log of attackcoord : hit/miss/sunk
+      //if prev move was sunk or miss-> pick a unattacked spot (randomly)
+      //if we have a lead -> 
     }
   }
 
@@ -54,7 +64,12 @@ class Player{
   }
 
   initializeShips(){
+    if(this.user){
 
+    }
+    else{
+      //randomly place ship
+    }
   }
 
   checkHit(row, col){
